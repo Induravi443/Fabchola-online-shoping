@@ -1,0 +1,17 @@
+<h2>Order #{{ order.id }}</h2>
+<p><strong>Placed on:</strong> {{ order.created_at }}</p>
+<p><strong>Shipping Address:</strong> {{ order.address }}</p>
+
+<!-- Cancel Button Logic -->
+{% if not order.is_canceled %}
+  <form method="POST" action="{% url 'cancel-order' order.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to cancel this order?')">
+      Cancel Order
+    </button>
+  </form>
+{% else %}
+  <p class="text-danger mt-3 fw-bold">
+    This order has been canceled{% if order.is_refunded %} and refunded{% endif %}.
+  </p>
+{% endif %}
